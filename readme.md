@@ -16,4 +16,42 @@ The title of the window contains the name of the program, on the right side ther
 
 6. Displaying FFT results **[9]**.
 
-![interface](..\Fast-Fourier-Transformation-FFT\photo\interface.png)
+![interface](/photo/interface.png)
+
+Demonstration of the program
+-------------------------
+_Setting up a window for signal processing_
+
+---
+
+![interface](/photo/property_window_1.png)
+
+_Setting up a window for signal processing_
+
+---
+
+![interface](/photo/spectogram_window_1.png)
+
+_Setting up a window for signal processing_
+
+---
+
+![interface](/photo/3d_graph_window_1.png)
+
+_Setting up a window for signal processing_
+
+---
+
+![interface](/photo/property_window_2.png)
+
+_Setting up a window for signal processing_
+
+---
+
+![interface](/photo/spectogram_window_2.png)
+
+_Setting up a window for signal processing_
+
+---
+
+![interface](/photo/3d_graph_window_2.png)
