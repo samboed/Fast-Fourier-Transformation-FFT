@@ -39,11 +39,11 @@ class WindowBuild(FloatLayout):
         self.signal_data_window_TFfft = None
         self.index_window = None
         self.count_window = 1
-        self.TFfft_data = None
+        self.tffft_data = None
+        self.length_tffft_data = None
         self.combined_func = None
         self.signal_data_up = None
         self.window_status = None
-
 
         # Design window
         self.label_parameters = Label(
@@ -90,14 +90,14 @@ class WindowBuild(FloatLayout):
 
         with self.label_status.canvas:
             Color(102/RGB_CONST, 102/RGB_CONST, 102/RGB_CONST, 1.0)
-            Rectangle(pos=(0, 240), size=(250,5000))
+            Rectangle(pos=(0, 240), size=(250, 5000))
 
         self.slider_window = Slider(min=0, max=0, value=0, step=1,
                                     pos_hint={"x": 0.01, "y": 0.6},
                                     size_hint=(0.23, 0.1))
         self.slider_window.bind(value=self.on_value)
 
-        self.label_window = Label(text= f"Number of windows: {int(2**self.slider_window.value)}",
+        self.label_window = Label(text=f"Number of windows: {int(2**self.slider_window.value)}",
                                   color="white", font_size='15sp',
                                   pos_hint={"x": 0, "y": 0.65}, size_hint=(0.25, 0.1))
         self.spectogram = GridLayout(cols=1)
@@ -108,18 +108,18 @@ class WindowBuild(FloatLayout):
         btn_show_spectogram.bind(on_release=popup.open)
         self.graph_3D = GridLayout(cols=1)
         popup = Popup(title="3D Spectrogram", size_hint=(0.9, 0.9), content=self.graph_3D, disabled=True)
-        btn_show_graph_3D = Button(text="SG-3D", font_size="20sp",
+        btn_show_graph_3d = Button(text="SG-3D", font_size="20sp",
                                    size_hint=(0.075, 0.05),
                                    pos_hint={"x": 0.925, "y": 0.95})
-        btn_show_graph_3D.bind(on_release=popup.open)
+        btn_show_graph_3d.bind(on_release=popup.open)
         fig = plt.figure()
         ax = fig.add_subplot(111, projection='3d')
         ax.set_xlabel('Time')
         ax.set_ylabel('Frequence')
         ax.set_zlabel('Amplitude')
         plt.title('Time Frequency Response of the Signal')
-        plt_graph_3D = FigureCanvasKivyAgg(plt.gcf(), size_hint=(1.0, 1.0))
-        self.graph_3D.add_widget(plt_graph_3D)
+        plt_graph_3d = FigureCanvasKivyAgg(plt.gcf(), size_hint=(1.0, 1.0))
+        self.graph_3D.add_widget(plt_graph_3d)
         plt.close()
         fig = plt.figure()
         ax = fig.add_subplot(111)
@@ -142,7 +142,7 @@ class WindowBuild(FloatLayout):
         self.add_widget(btn_start)
         self.add_widget(btn_update_window)
         self.add_widget(btn_show_spectogram)
-        self.add_widget(btn_show_graph_3D)
+        self.add_widget(btn_show_graph_3d)
         self.add_widget(self.label_parameters)
         self.add_widget(self.slider_window)
         self.add_widget(self.label_window)
@@ -159,8 +159,8 @@ class WindowBuild(FloatLayout):
                                        color="white", font_size='15sp')
         self.add_widget(name_select_triang_win)
         self.active = CheckBox(active=False, pos_hint={'center_x': .04, 'center_y': .55}, group='group',
-                               size_hint=(0.03, 0.03), on_active=self.select_triang)
-        self.active.bind(active=self.select_triang)
+                               size_hint=(0.03, 0.03), on_active=self.select_triangle)
+        self.active.bind(active=self.select_triangle)
         self.add_widget(self.active)
 
         name_select_henning_win = Label(text="Henning Window", pos_hint={"x": -0.38, "y": 0},
@@ -192,7 +192,7 @@ class WindowBuild(FloatLayout):
         except AttributeError:
             pass
 
-    def select_triang(self, checkbox, value):
+    def select_triangle(self, checkbox, value):
         try:
             if value:
                 self.index_window = 1
@@ -239,10 +239,10 @@ class WindowBuild(FloatLayout):
                         self.index_window = 0
                     self.label_status.color = 0 / RGB_CONST, 255 / RGB_CONST, 0 / RGB_CONST, 1
 
-                    raw_data_TFfft = TFFFT(self.raw_data, self.count_window)
+                    raw_data_tffft = TFFFT(self.raw_data, self.count_window)
 
-                    self.increases_data_length = raw_data_TFfft.signal_length_up
-                    self.signal_data_up = raw_data_TFfft.signal_data
+                    self.increases_data_length = raw_data_tffft.signal_length_up
+                    self.signal_data_up = raw_data_tffft.signal_data
                     self.window_status = WindowFunction(self.increases_data_length, self.count_window)
                     self.window_data = self.window_status.choice_window_func(self.index_window)[1]
 
@@ -267,8 +267,8 @@ class WindowBuild(FloatLayout):
         else:
 
             self.signal_data_window_TFfft = TFFFT(self.combined_func, self.count_window)
-            self.TFfft_data = self.signal_data_window_TFfft.run()
-            self.length_TFfft_data = self.TFfft_data.shape
+            self.tffft_data = self.signal_data_window_TFfft.run()
+            self.length_tffft_data = self.tffft_data.shape
             self.label_status.text = "Complete"
             self.label_status.color = 0 / RGB_CONST, 255 / RGB_CONST, 0 / RGB_CONST, 1
             self.update_plot_tffft()
@@ -297,16 +297,17 @@ class WindowBuild(FloatLayout):
         self.time_range = float(self.net_data_length / self.sampling_rate)
         self.time_range_fft_data = float(self.increases_data_length / self.sampling_rate)
         self.window_type = self.window_status.window_type
-        self.label_parameters.text = f"Sampling Rate: {self.sampling_rate} Gz\nNet Data Length: {self.net_data_length}\n" \
-                                     f"Increased Data Length: {self.increases_data_length}\n" + \
-                                     "Time Range Signal: {:.3f} sec\nTime Range FFT Data: {:.3f} sec\n".format(
-                                     self.time_range, self.time_range_fft_data) + \
+        self.label_parameters.text = f"Sampling Rate: {self.sampling_rate} Gz\nNet Data Length: " \
+                                     f"{self.net_data_length}\n" f"Increased Data Length: " \
+                                     f"{self.increases_data_length}\n" + \
+                                     "Time Range Signal: {:.3f} sec\nTime Range FFT Data: {:.3f} sec\n"\
+                                     .format(self.time_range, self.time_range_fft_data) + \
                                      f"Type Window: {self.window_type}"
 
     def update_plot_signal(self):
         plt.clf()
         y_amp = self.signal_data_up.copy()[0, ::]
-        x_time = numpy.array(range(0,len(y_amp))) / self.sampling_rate
+        x_time = numpy.array(range(0, len(y_amp))) / self.sampling_rate
         plt.plot(x_time, y_amp, color="steelblue")
         plt.xlabel('Time')
         plt.ylabel('Amplitude')
@@ -327,9 +328,9 @@ class WindowBuild(FloatLayout):
             return i*sampling_rate/increases_data_length
 
         x = abs(x_time)
-        z = (2 * abs(self.TFfft_data[:int(self.length_TFfft_data[0]/2), ::]) / self.increases_data_length)
+        z = (2 * abs(self.tffft_data[:int(self.length_tffft_data[0] / 2), ::]) / self.increases_data_length)
         y = x.copy()
-        y = numpy.fromfunction(frequency_axes, x.shape)[:int(self.length_TFfft_data[0]/2):] * self.count_window
+        y = numpy.fromfunction(frequency_axes, x.shape)[:int(self.length_tffft_data[0] / 2):] * self.count_window
 
         fig = plt.figure()
         ax = fig.add_subplot(111)
@@ -365,4 +366,3 @@ if __name__ == '__main__':
     App_Window = MyApp()
     App_Window.title = "Time-Frequency FFT"
     App_Window.run()
-
