@@ -2,13 +2,13 @@ Time-Frequency Fast-Fourier-Transformation
 ========================
 * **Table of contents**
   * [Features](#Features)
-  * [Interface Description](#Interface Description)
-  * [Demonstration of the program](#Demonstration of the program)
+  * [Interface Description](#Interface-Description)
+  * [Demonstration of the program](#Demonstration-of-the-program)
 
 Features
 -------------------------
 
-Fast-Fourier-Transformation-FFT performs the time-frequency FFT of the input signal and displays the result in the form of a 3D graph and spectrogram. The FFT is implemented by [the Cooley–Tukey FFT algorithm](#https://en.wikipedia.org/wiki/Cooley%E2%80%93Tukey_FFT_algorithm) (time-thinning FFT). There is a choice of 4 types of windows presented: Rectangle, Triangle, Hanning, Hamming and the ability to set an arbitrary width of the DFT window.
+Fast-Fourier-Transformation-FFT performs the time-frequency FFT of the input signal and displays the result in the form of a 3D graph and spectrogram. The FFT is implemented by [the Cooley–Tukey FFT algorithm](#https://en.wikipedia.org/wiki/Cooley%E2%80%93Tukey_FFT_algorithm) (time-thinning FFT). There is a choice of 4 types of windows presented: Rectangle, Triangle, Hanning, Hamming and the ability to set an arbitrary width of the DFT window. Signal input is carried out using the functions of the numpy **arange** and **linspace** module.
 
 Interface Description
 -------------------------
@@ -31,15 +31,6 @@ The title of the window contains the name of the program, on the right side ther
 
 Demonstration of the program
 -------------------------
-
-**Mathematical description of the signal: **
-
-```mathematica
-y(t) = A*sin(2π*f*t)
-A - amplitude
-f - frequency, Hz
-t - time, sec
-```
 
 **Input data: **
 
