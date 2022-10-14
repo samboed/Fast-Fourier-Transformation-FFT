@@ -32,7 +32,7 @@ The title of the window contains the name of the program, on the right side ther
 Demonstration of the program
 -------------------------
 
-**Input data: **
+**Input data:**
 
 ```mathematica
 signal #1: t = {0:6}, A = 2.00, f = 5, SIN 
