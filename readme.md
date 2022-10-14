@@ -8,7 +8,7 @@ Time-Frequency Fast-Fourier-Transformation
 Features
 -------------------------
 
-Fast-Fourier-Transformation-FFT performs the time-frequency FFT of the input signal and displays the result in the form of a 3D graph and spectrogram. The FFT is implemented by [the Cooley–Tukey FFT algorithm](#https://en.wikipedia.org/wiki/Cooley%E2%80%93Tukey_FFT_algorithm) (time-thinning FFT). There is a choice of 4 types of windows presented: Rectangle, Triangle, Hanning, Hamming and the ability to set an arbitrary width of the DFT window. Signal input is carried out using the functions of the numpy **arange** and **linspace** module.
+Fast-Fourier-Transformation-FFT performs the time-frequency FFT of the input signal and displays the result in the form of a 3D graph and spectrogram. The FFT is implemented by [the Cooley–Tukey FFT algorithm](#https://en.wikipedia.org/wiki/Cooley%E2%80%93Tukey_FFT_algorithm) (time-thinning FFT). There is a choice of 4 types of windows presented: Rectangle, Triangle, Hanning, Hamming and the ability to set an arbitrary width of the DFT window. Signal input is carried out using the functions of the NumPy **arange** and **linspace** module.
 
 Interface Description
 -------------------------
@@ -44,7 +44,7 @@ signal #6: t = {4:6}, A = 1.20, f = 30, COS
 num = 500(step)*2(sampling rate)  
 ```
 
-**Description of the signal using the Numpy module:**
+**Description of the signal using the NumPy module:**
 
 ```python
 hstack((sin(2*pi*5*arange(500*2)/500) + 0.5*cos(2*pi*55*arange(500*2)/500) + 0.5*cos(2*pi*240*arange(500*2)/500) + 0.75*cos(2*pi*100*arange(500*2)/500), sin(2*pi*5*linspace(2, 4, num=500*2)) + 0.5*cos(2*pi*55*linspace(2, 4, num=500*2)) + 0.5*cos(2*pi*240*linspace(2, 4, num=500*2)) + 0.75*cos(2*pi*145*linspace(2, 4, num=500*2)), sin(2*pi*5*linspace(4, 6, num=500*2)) + 0.5*cos(2*pi*55*linspace(4, 6, num=500*2)) + 0.5*cos(2*pi*240*linspace(4, 6, num=500*2)) + 1.2*cos(2*pi*30*linspace(4, 6, num=500*2))))
